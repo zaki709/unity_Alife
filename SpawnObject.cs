@@ -11,7 +11,7 @@ public class SpawnObject: MonoBehaviour{
     private int numDir = 16; //キューブが横方向に広がる次元数
     private int height = 15; //キューブの縦方向の数
     private int radius = 7; //キューブの半径における個数
-    private float scale = 0.25f;//キューブの大きさ
+    private float scale = 0.025f;//キューブの大きさ
     private int indexOfCubes;
 
 
@@ -75,10 +75,10 @@ public class SpawnObject: MonoBehaviour{
 
         //variant
         isBreath = true;
-        distance = 0.5f;
+        distance = (float)(2.0 * scale);//キューブー同士の距離
         cubeVectors = new Vector3[sumOfCubes];
         coreVector = new Vector3(0f,0f,0f);
-        omega = (float)(Math.PI / 180) * 3f;
+        omega = (float)(Math.PI / 180) * 12f;
         lifeTime = 0f;
 
 
@@ -173,7 +173,8 @@ public class SpawnObject: MonoBehaviour{
 
         //息をする動作
         //円運動のSinの値をターゲットに、各キューブがコアキューブとの相対ベクトルの方向に振動するように動く
-        float targetVol = (float)(Math.Sin(omega * lifeTime)) / 10f;
+        //targetVolは時間経過lifeTimeと角速度omegaの乗算の値のsin値を任意の実数で割ったもの
+        float targetVol = (float)(Math.Sin(omega * lifeTime / 2)) / 100f;
         for(int i = 1;i < sumOfCubes;i++){
             Vector3 cur = cube[i].transform.position;
             cube[i].transform.position = Vector3.MoveTowards(cur,cur + targetVol*cubeVectors[i],mvd);
